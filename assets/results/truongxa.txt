@@ -1,0 +1,12 @@
+@ Precision
+conf1: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.856
+conf2: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.837
+conf3: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.859
+yolox_m_conf3: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.854
+yolox_x_conf3: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.865
+@ Recall
+conf1: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.532
+conf2: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.536
+conf3: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.538
+yolox_m_conf3: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.558
+yolox_x_conf3: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.579

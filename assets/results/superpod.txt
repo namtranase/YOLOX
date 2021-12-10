@@ -1,0 +1,11 @@
+@ Precision
+yolox_m_conf3: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.851
+yolox_x_conf3: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.881
+yolox_x_conf3_2gpu: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.872
+yolox_x_conf3_2classes: Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.873
+
+@ Recall
+yolox_m_conf3: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.554
+yolox_x_conf3: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.584
+yolox_x_conf3_2gpu: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.587
+yolox_x_conf3_2classes: Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.583
