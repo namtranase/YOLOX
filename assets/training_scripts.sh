@@ -55,3 +55,12 @@ CUDA_VISIBLE_DEVICES=2 python tools/train.py -f exps/example/custom/yolox_m_live
 
 # Conf3 + yolox-x
 CUDA_VISIBLE_DEVICES=3 python tools/train.py -f exps/example/custom/yolox_x_livetrack.py -b 32 --fp16 -o -c checkpoints/yolox_x.pth -d 1 -expn yolox_x_conf3
+
+# Superpod
+# 1gpu
+python tools/train.py -f exps/example/custom/yolox_x_livetrack.py -b 32 --fp16 -o -c checkpoints/yolox_x.pth -d 1 -expn yolox_x_conf3
+python tools/train.py -f exps/example/custom/yolox_m_livetrack.py -b 32 --fp16 -o -c checkpoints/yolox_m.pth -d 1 -expn yolox_m_conf3
+# 2gpu
+python tools/train.py -f exps/example/custom/yolox_x_livetrack.py -b 64 --fp16 -o -c checkpoints/yolox_x.pth -d 2 -expn yolox_x_conf3_2gpu
+# No classes head
+python tools/train.py -f exps/example/custom/yolox_x_livetrack_no_classes.py -b 32 --fp16 -o -c checkpoints/yolox_x.pth -d 1 -expn yolox_x_conf3_no_classes

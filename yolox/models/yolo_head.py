@@ -261,7 +261,7 @@ class YOLOXHead(nn.Module):
         origin_preds,
         dtype,
     ):
-        bbox_preds = outputs[:, :, :4]  # [batch, n_anchors_all, 4]
+        bbox_preds = outputs[:, :, :4]  # [batch, n_anchors_all, 4] # = 8000 + 6400 + 400 (grid)
         obj_preds = outputs[:, :, 4].unsqueeze(-1)  # [batch, n_anchors_all, 1]
         cls_preds = outputs[:, :, 5:]  # [batch, n_anchors_all, n_cls]
 
@@ -382,7 +382,7 @@ class YOLOXHead(nn.Module):
         fg_masks = torch.cat(fg_masks, 0)
         if self.use_l1:
             l1_targets = torch.cat(l1_targets, 0)
-
+        # TODO: What is num_fg
         num_fg = max(num_fg, 1)
         loss_iou = (
             self.iou_loss(bbox_preds.view(-1, 4)[fg_masks], reg_targets)
@@ -390,6 +390,7 @@ class YOLOXHead(nn.Module):
         loss_obj = (
             self.bcewithlog_loss(obj_preds.view(-1, 1), obj_targets)
         ).sum() / num_fg
+        # TODO: Why cls_target = [[0.3690],[0.3729],...]
         loss_cls = (
             self.bcewithlog_loss(
                 cls_preds.view(-1, self.num_classes)[fg_masks], cls_targets
@@ -491,6 +492,7 @@ class YOLOXHead(nn.Module):
             ).sum(-1)
         del cls_preds_
 
+        # TODO: What the fuck they cal here????
         cost = (
             pair_wise_cls_loss
             + 3.0 * pair_wise_ious_loss
@@ -528,6 +530,8 @@ class YOLOXHead(nn.Module):
         total_num_anchors,
         num_gt,
     ):
+        """What this func do!
+        """
         expanded_strides_per_image = expanded_strides[0]
         x_shifts_per_image = x_shifts[0] * expanded_strides_per_image
         y_shifts_per_image = y_shifts[0] * expanded_strides_per_image
@@ -597,6 +601,7 @@ class YOLOXHead(nn.Module):
         is_in_centers_all = is_in_centers.sum(dim=0) > 0
 
         # in boxes and in centers
+        # TODO: Read and understand this code snip
         is_in_boxes_anchor = is_in_boxes_all | is_in_centers_all
 
         is_in_boxes_and_center = (
