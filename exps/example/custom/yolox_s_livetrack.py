@@ -37,33 +37,33 @@ class Exp(MyExp):
         # self.momentum = 0.9
 
         # # # Conf 3
-        # self.mosaic_prob = 1.0
-        # self.mixup_prob = 1.0
-        # self.hsv_prob = 1.0
-        # self.flip_prob = 0.5
-        # self.degrees = 10.0
-        # self.translate = 0.1
-        # self.mosaic_scale = (0.1, 2)
-        # self.mixup_scale = (0.5, 1.5)
-        # self.shear = 2.0
-        # self.enable_mixup = True
+        self.mosaic_prob = 1.0
+        self.mixup_prob = 1.0
+        self.hsv_prob = 1.0
+        self.flip_prob = 0.5
+        self.degrees = 10.0
+        self.translate = 0.1
+        self.mosaic_scale = (0.1, 2)
+        self.mixup_scale = (0.5, 1.5)
+        self.shear = 2.0
+        self.enable_mixup = True
 
-        # # --------------  training config --------------------- #
-        # self.warmup_epochs = 5
-        # self.warmup_lr = 0
-        # self.basic_lr_per_img = 0.01 / 64.0
-        # self.scheduler = "yoloxwarmcos"
-        # self.no_aug_epochs = 15
-        # self.min_lr_ratio = 0.05
-        # self.ema = True
+        # --------------  training config --------------------- #
+        self.warmup_epochs = 5
+        self.warmup_lr = 0
+        self.basic_lr_per_img = 0.01 / 64.0
+        self.scheduler = "yoloxwarmcos"
+        self.no_aug_epochs = 15
+        self.min_lr_ratio = 0.05
+        self.ema = True
 
-        # self.weight_decay = 5e-4
-        # self.momentum = 0.9
-        # # self.print_interval = 1
-        # self.eval_interval = 1
-        # self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
+        self.weight_decay = 5e-4
+        self.momentum = 0.9
+        # self.print_interval = 1
+        self.eval_interval = 1
+        self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
 
-        # # -----------------  testing config ------------------ #
-        # self.test_size = (640, 640)
-        # self.test_conf = 0.01
-        # self.nmsthre = 0.65
+        # -----------------  testing config ------------------ #
+        self.test_size = (640, 640)
+        self.test_conf = 0.01
+        self.nmsthre = 0.65
