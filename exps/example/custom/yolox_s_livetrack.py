@@ -15,7 +15,7 @@ class Exp(MyExp):
 
         # Define yourself dataset path
         self.data_dir = "datasets/LiveTrack_COCO"
-        self.train_ann = "gt_val.json"
+        self.train_ann = "gt_train.json"
         self.val_ann = "gt_val.json"
 
         self.num_classes = 1
