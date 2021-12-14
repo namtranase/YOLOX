@@ -16,11 +16,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--train-path",
         type=str,
-        default="datasets/COCO/train2017",
+        default="datasets/LiveTrack_COCO/train2017",
         help="training path",
     )
     parser.add_argument(
-        "--val-path", type=str, default="datasets/COCO/val2017", help="validation path"
+        "--val-path", type=str, default="datasets/LiveTrack_COCO/val2017", help="validation path"
     )
     parser.add_argument(
         "--project", type=str, default="YOLOX", help="name of W&B Project"
