@@ -89,6 +89,8 @@ def make_parser():
         action="store_true",
         help="Use Weights & Biases for logging experiments",
     )
+    parser.add_argument("-rn", "--run_name", default=None, type=str, help="run_name of wandb")
+
     parser.add_argument(
         "opts",
         help="Modify config options using the command-line",

@@ -40,6 +40,7 @@ class Trainer:
         self.args = args
 
         # training related attr
+        self.run_name = args.run_name
         self.max_epoch = exp.max_epoch
         self.amp_training = args.fp16
         self.scaler = torch.cuda.amp.GradScaler(enabled=args.fp16)
@@ -184,6 +185,7 @@ class Trainer:
             self.tblogger = SummaryWriter(self.file_name)
             if self.args.wandb:
                 self.wandb_logger = WandBLogger(
+                    run_name=self.run_name,
                     model=self.model,
                     config=self.args,
                     rank = self.rank
