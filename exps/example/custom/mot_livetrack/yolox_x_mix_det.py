@@ -30,110 +30,110 @@ class Exp(MyExp):
         self.basic_lr_per_img = 0.001 / 64.0
         self.warmup_epochs = 1
 
-    def get_data_loader(self, batch_size, is_distributed, no_aug=False):
-        from yolox.data import (
-            MOTDataset,
-            TrainTransform,
-            YoloBatchSampler,
-            DataLoader,
-            InfiniteSampler,
-            MosaicDetection,
-        )
+    # def get_data_loader(self, batch_size, is_distributed, no_aug=False):
+    #     from yolox.data import (
+    #         MOTDataset,
+    #         TrainTransform,
+    #         YoloBatchSampler,
+    #         DataLoader,
+    #         InfiniteSampler,
+    #         MosaicDetection,
+    #     )
 
-        dataset = MOTDataset(
-            data_dir=os.path.join(get_yolox_datadir(), "mix_det"),
-            json_file=self.train_ann,
-            name='',
-            img_size=self.input_size,
-            preproc=TrainTransform(
-                rgb_means=(0.485, 0.456, 0.406),
-                std=(0.229, 0.224, 0.225),
-                max_labels=500,
-            ),
-        )
+    #     dataset = MOTDataset(
+    #         data_dir=os.path.join(get_yolox_datadir(), "mix_det"),
+    #         json_file=self.train_ann,
+    #         name='',
+    #         img_size=self.input_size,
+    #         preproc=TrainTransform(
+    #             rgb_means=(0.485, 0.456, 0.406),
+    #             std=(0.229, 0.224, 0.225),
+    #             max_labels=500,
+    #         ),
+    #     )
 
-        dataset = MosaicDetection(
-            dataset,
-            mosaic=not no_aug,
-            img_size=self.input_size,
-            preproc=TrainTransform(
-                rgb_means=(0.485, 0.456, 0.406),
-                std=(0.229, 0.224, 0.225),
-                max_labels=1000,
-            ),
-            degrees=self.degrees,
-            translate=self.translate,
-            scale=self.scale,
-            shear=self.shear,
-            perspective=self.perspective,
-            enable_mixup=self.enable_mixup,
-        )
+    #     dataset = MosaicDetection(
+    #         dataset,
+    #         mosaic=not no_aug,
+    #         img_size=self.input_size,
+    #         preproc=TrainTransform(
+    #             rgb_means=(0.485, 0.456, 0.406),
+    #             std=(0.229, 0.224, 0.225),
+    #             max_labels=1000,
+    #         ),
+    #         degrees=self.degrees,
+    #         translate=self.translate,
+    #         scale=self.scale,
+    #         shear=self.shear,
+    #         perspective=self.perspective,
+    #         enable_mixup=self.enable_mixup,
+    #     )
 
-        self.dataset = dataset
+    #     self.dataset = dataset
 
-        if is_distributed:
-            batch_size = batch_size // dist.get_world_size()
+    #     if is_distributed:
+    #         batch_size = batch_size // dist.get_world_size()
 
-        sampler = InfiniteSampler(
-            len(self.dataset), seed=self.seed if self.seed else 0
-        )
+    #     sampler = InfiniteSampler(
+    #         len(self.dataset), seed=self.seed if self.seed else 0
+    #     )
 
-        batch_sampler = YoloBatchSampler(
-            sampler=sampler,
-            batch_size=batch_size,
-            drop_last=False,
-            input_dimension=self.input_size,
-            mosaic=not no_aug,
-        )
+    #     batch_sampler = YoloBatchSampler(
+    #         sampler=sampler,
+    #         batch_size=batch_size,
+    #         drop_last=False,
+    #         input_dimension=self.input_size,
+    #         mosaic=not no_aug,
+    #     )
 
-        dataloader_kwargs = {"num_workers": self.data_num_workers, "pin_memory": True}
-        dataloader_kwargs["batch_sampler"] = batch_sampler
-        train_loader = DataLoader(self.dataset, **dataloader_kwargs)
+    #     dataloader_kwargs = {"num_workers": self.data_num_workers, "pin_memory": True}
+    #     dataloader_kwargs["batch_sampler"] = batch_sampler
+    #     train_loader = DataLoader(self.dataset, **dataloader_kwargs)
 
-        return train_loader
+    #     return train_loader
 
-    def get_eval_loader(self, batch_size, is_distributed, testdev=False):
-        from yolox.data import MOTDataset, ValTransform
+    # def get_eval_loader(self, batch_size, is_distributed, testdev=False):
+    #     from yolox.data import MOTDataset, ValTransform
 
-        valdataset = MOTDataset(
-            data_dir=os.path.join(get_yolox_datadir(), "mot"),
-            json_file=self.val_ann,
-            img_size=self.test_size,
-            name='test',   # change to train when running on training set
-            preproc=ValTransform(
-                rgb_means=(0.485, 0.456, 0.406),
-                std=(0.229, 0.224, 0.225),
-            ),
-        )
+    #     valdataset = MOTDataset(
+    #         data_dir=os.path.join(get_yolox_datadir(), "mot"),
+    #         json_file=self.val_ann,
+    #         img_size=self.test_size,
+    #         name='test',   # change to train when running on training set
+    #         preproc=ValTransform(
+    #             rgb_means=(0.485, 0.456, 0.406),
+    #             std=(0.229, 0.224, 0.225),
+    #         ),
+    #     )
 
-        if is_distributed:
-            batch_size = batch_size // dist.get_world_size()
-            sampler = torch.utils.data.distributed.DistributedSampler(
-                valdataset, shuffle=False
-            )
-        else:
-            sampler = torch.utils.data.SequentialSampler(valdataset)
+    #     if is_distributed:
+    #         batch_size = batch_size // dist.get_world_size()
+    #         sampler = torch.utils.data.distributed.DistributedSampler(
+    #             valdataset, shuffle=False
+    #         )
+    #     else:
+    #         sampler = torch.utils.data.SequentialSampler(valdataset)
 
-        dataloader_kwargs = {
-            "num_workers": self.data_num_workers,
-            "pin_memory": True,
-            "sampler": sampler,
-        }
-        dataloader_kwargs["batch_size"] = batch_size
-        val_loader = torch.utils.data.DataLoader(valdataset, **dataloader_kwargs)
+    #     dataloader_kwargs = {
+    #         "num_workers": self.data_num_workers,
+    #         "pin_memory": True,
+    #         "sampler": sampler,
+    #     }
+    #     dataloader_kwargs["batch_size"] = batch_size
+    #     val_loader = torch.utils.data.DataLoader(valdataset, **dataloader_kwargs)
 
-        return val_loader
+    #     return val_loader
 
-    def get_evaluator(self, batch_size, is_distributed, testdev=False):
-        from yolox.evaluators import COCOEvaluator
+    # def get_evaluator(self, batch_size, is_distributed, testdev=False):
+    #     from yolox.evaluators import COCOEvaluator
 
-        val_loader = self.get_eval_loader(batch_size, is_distributed, testdev=testdev)
-        evaluator = COCOEvaluator(
-            dataloader=val_loader,
-            img_size=self.test_size,
-            confthre=self.test_conf,
-            nmsthre=self.nmsthre,
-            num_classes=self.num_classes,
-            testdev=testdev,
-        )
-        return evaluator
+    #     val_loader = self.get_eval_loader(batch_size, is_distributed, testdev=testdev)
+    #     evaluator = COCOEvaluator(
+    #         dataloader=val_loader,
+    #         img_size=self.test_size,
+    #         confthre=self.test_conf,
+    #         nmsthre=self.nmsthre,
+    #         num_classes=self.num_classes,
+    #         testdev=testdev,
+    #     )
+    #     return evaluator

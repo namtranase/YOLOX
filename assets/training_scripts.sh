@@ -33,3 +33,14 @@ CUDA_VISIBLE_DEVICES=4 python tools/train.py -f exps/example/custom/yolox_x_live
 CUDA_VISIBLE_DEVICES=2 python tools/train.py -f exps/example/custom/yolox_s_livetrack.py -b 32 --fp16 -o -c weights/yolox_s.pth -d 1 -expn yolox_s_noflip
 CUDA_VISIBLE_DEVICES=3 python tools/train.py -f exps/example/custom/yolox_m_livetrack.py -b 32 --fp16 -o -c weights/yolox_m.pth -d 1 -expn yolox_m_noflip
 CUDA_VISIBLE_DEVICES=4 python tools/train.py -f exps/example/custom/yolox_x_livetrack.py -b 32 --fp16 -o -c weights/yolox_x.pth -d 1 -expn yolox_x_noflip
+
+# Supoerpod
+## With MOT pretrained and new exp file
+python tools/train.py -f exps/example/custom/mot_livetrack/yolox_s_mix_det.py -b 32 --fp16 -o -c weights/mot_pretrained/bytetrack_s_mot17.pth.tar -d 1 -expn yolox_s_mot_pretrained_new_exp
+python tools/train.py -f exps/example/custom/mot_livetrack/yolox_m_mix_det.py -b 32 --fp16 -o -c weights/mot_pretrained/bytetrack_m_mot17.pth.tar -d 1 -expn yolox_m_mot_pretrained_new_exp
+python tools/train.py -f exps/example/custom/mot_livetrack/yolox_x_mix_det.py -b 32 --fp16 -o -c weights/mot_pretrained/bytetrack_x_mot17.pth.tar -d 1 -expn yolox_x_mot_pretrained_new_exp
+
+## With MOt pretrained and the same exp file
+python tools/train.py -f exps/example/custom/livetrack/yolox_s_livetrack.py -b 32 --fp16 -o -c weights/mot_pretrained/bytetrack_s_mot17.pth.tar -d 1 -expn yolox_s_mot_pretrained
+python tools/train.py -f exps/example/custom/livetrack/yolox_m_livetrack.py -b 32 --fp16 -o -c weights/mot_pretrained/bytetrack_m_mot17.pth.tar -d 1 -expn yolox_m_mot_pretrained
+python tools/train.py -f exps/example/custom/livetrack/yolox_x_livetrack.py -b 32 --fp16 -o -c weights/mot_pretrained/bytetrack_x_mot17.pth.tar -d 1 -expn yolox_x_mot_pretrained
